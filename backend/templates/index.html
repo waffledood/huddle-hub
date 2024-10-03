@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,6 +11,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -18,5 +21,28 @@
 
     <title>HuddleHub</title>
   </head>
-  <body></body>
+  <body>
+    <nav class="navbar navbar-expand-md fixed-top bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Fixed top</a>
+      </div>
+    </nav>
+    <main class="container">
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum in itaque
+        delectus ab quibusdam molestias tempora saepe possimus iure, porro illum
+        quis alias esse est quasi ipsum eos nesciunt perferendis. Consequuntur
+        repudiandae magnam exercitationem illo laboriosam velit laudantium ad,
+        dignissimos aut vel in assumenda quae ab vitae necessitatibus esse culpa
+        quaerat accusantium fugiat!
+      </p>
+      <p>
+        Quam, illum pariatur. Vel, nemo magnam, veritatis sed consectetur cum ab
+        animi culpa dicta reprehenderit eligendi, expedita sunt? Cumque tempore
+        aliquam officiis tenetur nam perferendis cum voluptates officia minus
+        pariatur, sed facere ad ea possimus explicabo veniam natus obcaecati
+        labore illo assumenda deserunt ipsum non vel perspiciatis.
+      </p>
+    </main>
+  </body>
 </html>
