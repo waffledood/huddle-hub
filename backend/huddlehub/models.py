@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Event(models.Model):
     title = models.CharField(max_length=256, default="New Event")
+    description = models.TextField(default="Description of New Event")
     organizer = models.ForeignKey(
         to=User, on_delete=models.CASCADE, related_name="events"
     )
