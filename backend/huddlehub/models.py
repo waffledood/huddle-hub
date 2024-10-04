@@ -9,6 +9,7 @@ class Event(models.Model):
         to=User, on_delete=models.CASCADE, related_name="events"
     )
     created = models.DateField(auto_now_add=True)
+    updated = models.DateField(auto_now=True)
 
     def __str__(self):
         return f"Event ({self.id}): {self.title} organized by {self.organizer.get_username()}"
