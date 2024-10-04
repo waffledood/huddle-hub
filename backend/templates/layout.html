@@ -55,17 +55,19 @@
               </li>
             {% endif %}
           </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search for Events"
-              aria-label="Search for Events"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          {% if user.is_authenticated %}
+            <form class="d-flex" action="{% url 'logout' %}" method="post">
+              <button class="btn btn-outline-primary" type="submit">
+                Logout
+              </button>
+            </form>
+          {% else %}
+            <form class="d-flex" action="{% url 'login' %}" method="post">
+              <button class="btn btn-primary" type="submit">
+                Login
+              </button>
+            </form>
+          {% endif %}
         </div>
       </div>
     </nav>
