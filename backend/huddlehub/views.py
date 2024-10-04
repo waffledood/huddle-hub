@@ -4,9 +4,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from .models import Event
+
 
 def index(request):
-    return render(request=request, template_name="index.html", context={})
+    events = list(Event.objects.all())
+    return render(
+        request=request, template_name="index.html", context={"events": events}
+    )
 
 
 @login_required(login_url="/login/")
