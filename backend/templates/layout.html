@@ -63,11 +63,11 @@
               </button>
             </form>
           {% else %}
-            <form class="d-flex" action="{% url 'login' %}" method="post">
+            <a class="d-flex" href="{% url 'login' %}">
               <button class="btn btn-primary" type="submit">
                 Login
               </button>
-            </form>
+            </a>
           {% endif %}
         </div>
       </div>
