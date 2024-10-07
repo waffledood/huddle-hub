@@ -74,3 +74,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "register.html")
+
+
+def create(request):
+    pass
