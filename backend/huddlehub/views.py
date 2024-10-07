@@ -34,11 +34,11 @@ def login_view(request):
         else:
             return render(
                 request,
-                "login.html",
+                "auth/login.html",
                 {"message": "Invalid credentials."},
             )
     else:
-        return render(request, "login.html")
+        return render(request, "auth/login.html")
 
 
 def logout_view(request):
@@ -57,7 +57,7 @@ def register(request):
 
         if password != confirmation:
             return render(
-                request, "register.html", {"message": "Passwords must match."}
+                request, "auth/register.html", {"message": "Passwords must match."}
             )
 
         # Attempt to create new user
@@ -67,13 +67,13 @@ def register(request):
         except IntegrityError:
             return render(
                 request,
-                "register.html",
+                "auth/register.html",
                 {"message": "Username already taken."},
             )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "register.html")
+        return render(request, "auth/register.html")
 
 
 def create(request):
