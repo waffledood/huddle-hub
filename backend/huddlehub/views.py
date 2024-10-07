@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from .forms import EventForm
 from .models import Event, User
 
 
@@ -77,4 +78,19 @@ def register(request):
 
 
 def create(request):
-    pass
+    if request.method == "POST":
+        event = EventForm(request.POST)
+        if event.is_valid():
+            pendingEvent = event.save(commit=False)
+            # Add user submitting this request as organizer for this event
+            pendingEvent.organizer = request.user
+            pendingEvent.save()
+            event.save_m2m()
+
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(
+                request, "create.html", {"message": "Details of Event are incorrect"}
+            )
+    else:
+        return render(request, "create.html", {"eventForm": EventForm()})
