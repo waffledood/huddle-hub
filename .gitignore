@@ -1,5 +1,8 @@
 # Retrieved from gitignore.io
 
+### General ###
+.DS_Store
+
 ### huddle-hub specific ###
 huddle-hub/
 
