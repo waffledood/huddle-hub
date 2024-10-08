@@ -12,8 +12,25 @@ from .models import Event, RSVP, User
 def index(request):
     events = list(Event.objects.all())
 
+    eventsWithRSVPInfo = list()
+
+    if request.user.is_authenticated:
+        # check if user has already RSVP'ed for existing Events
+        for event in events:
+            existingRSVP = list(
+                RSVP.objects.filter(participant__exact=request.user).filter(
+                    event__exact=event
+                )
+            )
+
+            RSVPedForEvent = False if len(existingRSVP) == 0 else True
+
+            eventsWithRSVPInfo.append((event, RSVPedForEvent))
+
     return render(
-        request=request, template_name="index.html", context={"events": events}
+        request=request,
+        template_name="index.html",
+        context={"events": eventsWithRSVPInfo},
     )
 
 
