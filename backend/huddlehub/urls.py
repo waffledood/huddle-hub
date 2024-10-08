@@ -9,4 +9,5 @@ urlpatterns = [
     path(route="logout/", view=views.logout_view, name="logout"),
     path(route="register/", view=views.register, name="register"),
     path(route="create/", view=views.create, name="create"),
+    path(route="events/<int:eventId>/rsvp/", view=views.rsvp, name="rsvp"),
 ]

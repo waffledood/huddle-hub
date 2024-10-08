@@ -6,11 +6,12 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import EventForm
-from .models import Event, User
+from .models import Event, RSVP, User
 
 
 def index(request):
     events = list(Event.objects.all())
+
     return render(
         request=request, template_name="index.html", context={"events": events}
     )
@@ -94,3 +95,27 @@ def create(request):
             )
     else:
         return render(request, "create.html", {"eventForm": EventForm()})
+
+
+def rsvp(request, eventId):
+    if request.method == "POST":
+        eventToRSVPFor = Event.objects.get(id=eventId)
+
+        # check if user has already RSVP'ed for the event
+        existingRSVP = list(
+            RSVP.objects.filter(participant__exact=request.user).filter(
+                event__exact=eventToRSVPFor
+            )
+        )
+
+        if len(existingRSVP) == 0:
+            rsvp = RSVP(participant=request.user, event=eventToRSVPFor)
+            rsvp.save()
+            print(
+                f"RSVP created for {request.user.username} for Event {eventToRSVPFor}"
+            )
+
+        return HttpResponseRedirect(reverse("index"))
+
+    else:
+        return HttpResponseRedirect(reverse("index"))
