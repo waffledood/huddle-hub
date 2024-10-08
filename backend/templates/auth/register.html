@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <main class="container">
+    {% if message %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
+    <h1 class="mb-3">Register for a new account</h1>
+    <form action="{% url 'register' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group mb-3">
+        <input autofocus class="form-control" type="text" name="username" placeholder="Username" required>
+      </div>
+      <div class="form-group mb-3">
+        <input autofocus class="form-control" type="email" name="email" placeholder="Email" required>
+      </div>
+      <div class="form-group mb-3">
+        <input class="form-control" type="password" name="password" placeholder="Password" required>
+      </div>
+      <div class="form-group mb-3">
+        <input class="form-control" type="password" name="confirmation" placeholder="Enter your password again" required>
+      </div>
+      <input class="btn btn-primary" type="submit" value="Register">
+    </form>
+  </main>
+{% endblock %}
