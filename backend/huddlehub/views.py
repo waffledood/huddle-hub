@@ -116,6 +116,10 @@ def create(request):
         return render(request, "create.html", {"eventForm": EventForm()})
 
 
+def event(request, eventId):
+    pass
+
+
 def rsvp(request, eventId):
     if request.method == "POST":
         eventToRSVPFor = Event.objects.get(id=eventId)
