@@ -23,9 +23,11 @@ def index(request):
                 )
             )
 
-            RSVPedForEvent = False if len(existingRSVP) == 0 else True
+            hasRSVPedForEvent = False if len(existingRSVP) == 0 else True
 
-            eventsWithRSVPInfo.append((event, RSVPedForEvent))
+            # eventsWithRSVPInfo is a list of the tuple (Event, boolean indicating
+            # if the user sending this request has RSVP'ed for the Event)
+            eventsWithRSVPInfo.append((event, hasRSVPedForEvent))
 
     return render(
         request=request,
