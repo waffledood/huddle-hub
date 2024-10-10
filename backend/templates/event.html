@@ -2,5 +2,15 @@
 
 {% block body %}
 <main class="container">
+  <div class="mt-3">
+    <h1>{{ event.title }}</h1>
+    <p>
+      <small class="text-body-secondary">Created on {{ event.created }}</small>
+    </p>
+  </div>
+  <hr>
+  <div class="mt-3">
+    {{ event.description }}
+  </div>
 </main>
 {% endblock %}
