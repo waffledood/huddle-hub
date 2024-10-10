@@ -125,13 +125,21 @@ def rsvp(request, eventId):
         eventToRSVPFor = Event.objects.get(id=eventId)
 
         # check if user has already RSVP'ed for the event
-        existingRSVP = list(
-            RSVP.objects.filter(participant__exact=request.user).filter(
-                event__exact=eventToRSVPFor
-            )
+        existingRSVP = RSVP.objects.filter(participant__exact=request.user).filter(
+            event__exact=eventToRSVPFor
         )
 
-        if len(existingRSVP) == 0:
+        try:
+            rsvp = existingRSVP.get()
+
+            # remove the RSVP if there exists one
+            rsvp.delete()
+            print(
+                f"RSVP removed for {request.user.username} for Event {eventToRSVPFor}"
+            )
+
+        # if there doesn't exist an RSVP, create one
+        except RSVP.DoesNotExist:
             rsvp = RSVP(participant=request.user, event=eventToRSVPFor)
             rsvp.save()
             print(
