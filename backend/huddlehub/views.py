@@ -117,7 +117,12 @@ def create(request):
 
 
 def event(request, eventId):
-    pass
+    try:
+        event = Event.objects.get(id=eventId)
+    except Event.DoesNotExist:
+        return HttpResponseRedirect(reverse("index"))
+
+    return render(request, "event.html", {"event": event})
 
 
 def rsvp(request, eventId):
