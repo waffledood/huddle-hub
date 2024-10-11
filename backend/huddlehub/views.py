@@ -127,29 +127,31 @@ def event(request, eventId):
 
 def rsvp(request, eventId):
     if request.method == "POST":
-        eventToRSVPFor = Event.objects.get(id=eventId)
-
-        # check if user has already RSVP'ed for the event
-        existingRSVP = RSVP.objects.filter(participant__exact=request.user).filter(
-            event__exact=eventToRSVPFor
-        )
-
         try:
+            eventToRSVPFor = Event.objects.get(id=eventId)
+
+            # check if user has already RSVP'ed for the event
+            existingRSVP = RSVP.objects.filter(participant__exact=request.user).filter(
+                event__exact=eventToRSVPFor
+            )
             rsvp = existingRSVP.get()
 
             # remove the RSVP if there exists one
             rsvp.delete()
-            print(
-                f"RSVP removed for {request.user.username} for Event {eventToRSVPFor}"
-            )
+            print(f"RSVP removed for {request.user.username} for {eventToRSVPFor}")
+        except Event.DoesNotExist:
+            print(f"Request event with id {eventId} does not exist")
 
         # if there doesn't exist an RSVP, create one
         except RSVP.DoesNotExist:
-            rsvp = RSVP(participant=request.user, event=eventToRSVPFor)
-            rsvp.save()
-            print(
-                f"RSVP created for {request.user.username} for Event {eventToRSVPFor}"
-            )
+            try:
+                rsvp = RSVP(participant=request.user, event=eventToRSVPFor)
+                rsvp.save()
+                print(f"RSVP created for {request.user.username} for {eventToRSVPFor}")
+            except IntegrityError:
+                print(
+                    f"RSVP already created for {request.user.username} for {eventToRSVPFor}"
+                )
 
         return HttpResponseRedirect(reverse("index"))
 
