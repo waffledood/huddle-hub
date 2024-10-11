@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import AbstractUser, UserManager
 
 
@@ -27,3 +28,8 @@ class RSVP(models.Model):
 
     def __str__(self) -> str:
         return f"RSVP ({self.id}): {self.participant.get_username()} attending Event {self.event.id}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["participant", "event"], name="unique_RSVP")
+        ]
