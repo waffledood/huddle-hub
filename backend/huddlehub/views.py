@@ -139,6 +139,8 @@ def rsvp(request, eventId):
             # remove the RSVP if there exists one
             rsvp.delete()
             print(f"RSVP removed for {request.user.username} for {eventToRSVPFor}")
+
+        # if there doesn't exist an Event, exit this view
         except Event.DoesNotExist:
             print(f"Request event with id {eventId} does not exist")
 
