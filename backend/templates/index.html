@@ -12,7 +12,7 @@
               {% csrf_token %}
               {% if user.is_authenticated %}
                 {% if user == event.organizer  %}
-                  <button class="btn btn-outline-primary disabled">RSVP</button>
+                  <button class="btn btn-primary disabled">RSVP</button>
                 {% elif RSVPed %}
                   <button class="btn btn-outline-primary">un-RSVP</button>
                 {% else %}
