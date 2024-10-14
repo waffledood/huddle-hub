@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from .exceptions import InvalidUserActionException
 from .forms import EventForm
 from .models import Event, RSVP, User
 
@@ -130,6 +131,12 @@ def rsvp(request, eventId):
         try:
             eventToRSVPFor = Event.objects.get(id=eventId)
 
+            organizerOfEventToRSVPFor = eventToRSVPFor.organizer
+
+            # throw an Exception if the user tries to RSVP for their own Event
+            if request.user == organizerOfEventToRSVPFor:
+                raise InvalidUserActionException()
+
             # check if user has already RSVP'ed for the event
             existingRSVP = RSVP.objects.filter(participant__exact=request.user).filter(
                 event__exact=eventToRSVPFor
@@ -139,6 +146,9 @@ def rsvp(request, eventId):
             # remove the RSVP if there exists one
             rsvp.delete()
             print(f"RSVP removed for {request.user.username} for {eventToRSVPFor}")
+
+        except InvalidUserActionException as e:
+            print(f"{e}")
 
         # if there doesn't exist an Event, exit this view
         except Event.DoesNotExist:
