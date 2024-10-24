@@ -22,7 +22,9 @@ class Event(models.Model):
 
 
 class RSVP(models.Model):
-    participant = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    participant = models.ForeignKey(
+        to=User, on_delete=models.CASCADE, related_name="RSVPs"
+    )
     event = models.ForeignKey(to=Event, on_delete=models.CASCADE, related_name="RSVPs")
     created = models.DateField(auto_now_add=True)
 
