@@ -10,9 +10,7 @@ from .forms import EventForm
 from .models import Event, RSVP, User
 
 
-def index(request):
-    events = list(Event.objects.all())
-
+def loadEvents(request, events):
     eventsWithRSVPInfo = list()
 
     if request.user.is_authenticated:
@@ -29,6 +27,14 @@ def index(request):
             # eventsWithRSVPInfo is a list of the tuple (Event, boolean indicating
             # if the user sending this request has RSVP'ed for the Event)
             eventsWithRSVPInfo.append((event, hasRSVPedForEvent))
+
+    return eventsWithRSVPInfo
+
+
+def index(request):
+    events = list(Event.objects.all())
+
+    eventsWithRSVPInfo = loadEvents(request, events)
 
     return render(
         request=request,
