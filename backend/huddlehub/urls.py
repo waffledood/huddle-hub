@@ -11,4 +11,5 @@ urlpatterns = [
     path(route="create/", view=views.create, name="create"),
     path(route="events/<int:eventId>/", view=views.event, name="event"),
     path(route="events/<int:eventId>/rsvp/", view=views.rsvp, name="rsvp"),
+    path(route="rsvps/", view=views.rsvps, name="rsvps"),
 ]
