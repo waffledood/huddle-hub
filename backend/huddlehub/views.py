@@ -10,9 +10,7 @@ from .forms import EventForm
 from .models import Event, RSVP, User
 
 
-def index(request):
-    events = list(Event.objects.all())
-
+def loadEvents(request, events):
     eventsWithRSVPInfo = list()
 
     if request.user.is_authenticated:
@@ -29,6 +27,14 @@ def index(request):
             # eventsWithRSVPInfo is a list of the tuple (Event, boolean indicating
             # if the user sending this request has RSVP'ed for the Event)
             eventsWithRSVPInfo.append((event, hasRSVPedForEvent))
+
+    return eventsWithRSVPInfo
+
+
+def index(request):
+    events = list(Event.objects.all())
+
+    eventsWithRSVPInfo = loadEvents(request, events)
 
     return render(
         request=request,
@@ -169,3 +175,21 @@ def rsvp(request, eventId):
 
     else:
         return HttpResponseRedirect(reverse("index"))
+
+
+@login_required(login_url="/login/")
+def rsvps(request):
+    if request.method == "GET":
+        user = User.objects.get(id=request.user.id)
+        rsvps = user.RSVPs.select_related("event")
+        events = [rsvp.event for rsvp in rsvps]
+
+        eventsWithRSVPInfo = loadEvents(request, events)
+
+        return render(
+            request=request,
+            template_name="index.html",
+            context={"events": eventsWithRSVPInfo},
+        )
+
+    return HttpResponseRedirect(reverse("index"))
