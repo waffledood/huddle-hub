@@ -175,3 +175,21 @@ def rsvp(request, eventId):
 
     else:
         return HttpResponseRedirect(reverse("index"))
+
+
+@login_required(login_url="/login/")
+def rsvps(request):
+    if request.method == "GET":
+        user = User.objects.get(id=request.user.id)
+        rsvps = user.RSVPs.select_related("event")
+        events = [rsvp.event for rsvp in rsvps]
+
+        eventsWithRSVPInfo = loadEvents(request, events)
+
+        return render(
+            request=request,
+            template_name="index.html",
+            context={"events": eventsWithRSVPInfo},
+        )
+
+    return HttpResponseRedirect(reverse("index"))
