@@ -17,6 +17,7 @@ class EventForm(ModelForm):
                     "required": True,
                 }
             ),
+            "date": DateInput(attrs={"type": "date", "class": "form-control"}),
             "description": Textarea(
                 attrs={
                     "class": "form-control",
@@ -27,5 +28,6 @@ class EventForm(ModelForm):
                     "required": True,
                 }
             ),
-            "date": DateInput(attrs={"type": "date", "class": "form-control"}),
         }
+
+        # exclude = ["title", "description"]
