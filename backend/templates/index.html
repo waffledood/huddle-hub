@@ -5,6 +5,9 @@
     {% for event, RSVPed in events %}
       <div class="col">
         <div class="card h-100">
+          <div class="card-header">
+            Happening on {{ event.date }}
+          </div>
           <div class="card-body">
             <h5 class="card-title"><a href="{% url 'event' event.id %}">{{ event.title }}</a></h5>
             <p class="card-text">{{ event.description }}</p>
