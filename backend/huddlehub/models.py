@@ -10,6 +10,7 @@ class User(AbstractUser):
 
 class Event(models.Model):
     title = models.CharField(max_length=256, default="New Event")
+    date = models.DateTimeField()
     description = models.TextField(default="Description of New Event")
     organizer = models.ForeignKey(
         to=User, on_delete=models.CASCADE, related_name="events"
