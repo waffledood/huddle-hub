@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import DateInput, ModelForm
 
 from .models import Event
 
@@ -6,4 +6,8 @@ from .models import Event
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        fields = ["title", "description"]
+        fields = ["title", "date", "description"]
+
+        widgets = {
+            "date": DateInput(attrs={"type": "date"}),
+        }
