@@ -29,5 +29,3 @@ class EventForm(ModelForm):
                 }
             ),
         }
-
-        # exclude = ["title", "description"]
