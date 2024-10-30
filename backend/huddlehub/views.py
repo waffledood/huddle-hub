@@ -5,13 +5,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from datetime import datetime
+
 from .exceptions import InvalidUserActionException
 from .forms import EventForm
 from .models import Event, RSVP, User
 
 
 def loadEvents(request, events):
-    eventsWithRSVPInfo = list()
+    eventsWithInfo = list()
 
     if request.user.is_authenticated:
         # check if user has already RSVP'ed for existing Events
@@ -24,11 +26,17 @@ def loadEvents(request, events):
 
             hasRSVPedForEvent = False if len(existingRSVP) == 0 else True
 
-            # eventsWithRSVPInfo is a list of the tuple (Event, boolean indicating
-            # if the user sending this request has RSVP'ed for the Event)
-            eventsWithRSVPInfo.append((event, hasRSVPedForEvent))
+            eventHasPassed = (
+                True if event.date < datetime.now(event.date.tzinfo) else False
+            )
 
-    return eventsWithRSVPInfo
+            # eventsWithInfo is a list of the tuple
+            # (Event,
+            #  boolean indicating if the user sending this request has RSVP'ed for the Event,
+            #  boolean indicating if the event has passed today's date)
+            eventsWithInfo.append((event, hasRSVPedForEvent, eventHasPassed))
+
+    return eventsWithInfo
 
 
 def index(request):
