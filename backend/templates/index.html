@@ -2,11 +2,20 @@
 
 {% block body %}
   <div class="row row-cols-1 row-cols-md-3 g-4 p-3">
-    {% for event, RSVPed in events %}
+    {% for event, RSVPed, hasPassed in events %}
       <div class="col">
         <div class="card h-100">
-          <div class="card-header">
-            Happening on {{ event.date }}
+          <div class="card-header d-flex align-items-center">
+            {% if hasPassed %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar2-x flex-shrink-0 me-2" viewBox="0 0 16 16">
+                <path d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+                <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+            {% endif %}
+            <div>
+              Happening on {{ event.date }}
+            </div>
           </div>
           <div class="card-body">
             <h5 class="card-title"><a href="{% url 'event' event.id %}">{{ event.title }}</a></h5>
