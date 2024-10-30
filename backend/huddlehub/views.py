@@ -42,12 +42,12 @@ def loadEvents(request, events):
 def index(request):
     events = list(Event.objects.all())
 
-    eventsWithRSVPInfo = loadEvents(request, events)
+    eventsWithInfo = loadEvents(request, events)
 
     return render(
         request=request,
         template_name="index.html",
-        context={"events": eventsWithRSVPInfo},
+        context={"events": eventsWithInfo},
     )
 
 
@@ -192,12 +192,12 @@ def rsvps(request):
         rsvps = user.RSVPs.select_related("event")
         events = [rsvp.event for rsvp in rsvps]
 
-        eventsWithRSVPInfo = loadEvents(request, events)
+        eventsWithInfo = loadEvents(request, events)
 
         return render(
             request=request,
             template_name="index.html",
-            context={"events": eventsWithRSVPInfo},
+            context={"events": eventsWithInfo},
         )
 
     return HttpResponseRedirect(reverse("index"))
